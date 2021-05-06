@@ -8,8 +8,13 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "jquery": "^3.6.0",
+    "toastr": "^2.1.4",
     "vue": "^2.6.11",
+    "vue-axios": "^3.2.4",
     "vue-router": "^3.2.0",
+    "vue-toastr-2": "^0.0.10",
     "vuetify": "^2.4.0",
     "vuex": "^3.4.0"
   },
