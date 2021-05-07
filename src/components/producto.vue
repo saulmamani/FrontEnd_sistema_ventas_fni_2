@@ -5,14 +5,23 @@
       max-height="640"
   >
     <v-img
+        v-if="producto.url_imagen !== null && producto.url_imagen.includes('http')"
         height="150"
         :src="producto.url_imagen"
+        @click="dialogImagen = true"
+    ></v-img>
+    <v-img
+        v-if="producto.url_imagen !== null && !producto.url_imagen.includes('http')"
+        height="150"
+        :src="'http://127.0.0.1:8000/imagenes/' + producto.url_imagen"
         @click="dialogImagen = true"
     ></v-img>
 
     <v-card-title>{{ producto.codigo }} | {{ producto.nombre }}</v-card-title>
 
     <v-card-text>
+      {{ producto.url_imagen }}
+
       <v-row
           align="center"
           class="mx-0"
@@ -79,7 +88,9 @@
       persistent
     >
       <subir-imagen
+          :producto="producto"
         @salir="dialogImagen = false"
+          @listar="$emit('listar')"
       ></subir-imagen>
     </v-dialog>
 
@@ -101,7 +112,7 @@ export default {
   },
   methods:{
     openForm(){
-      this.$router.push({name: 'Producto'})
+      this.$router.push({name: 'Producto.edit', params: {id: this.producto.id}})
     },
     setLike(){
       const url = this.url + "set_like/" + this.producto.id;

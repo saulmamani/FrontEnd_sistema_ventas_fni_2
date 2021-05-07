@@ -26,6 +26,13 @@ const routes = [
     component: function () {
       return import( '../views/producto-form')
     }
+  },
+  {
+    path: '/producto/:id/edit',
+    name: 'Producto.edit',
+    component: function () {
+      return import( '../views/producto-form')
+    }
   }
 ]
 
