@@ -12,6 +12,7 @@
       <v-spacer/>
 
       <v-btn
+          v-if="!isLogin"
           text
           @click="dialog = !dialog"
       >
@@ -19,9 +20,11 @@
       </v-btn>
 
       <v-btn
+          v-else
           text
+          @click="logout"
       >
-        Salir
+       {{ user.email }} | Salir
         <v-avatar>
           <img
               src="https://cdn.vuetifyjs.com/images/john.jpg"
@@ -54,6 +57,8 @@
 <script>
 
 import Login from "./components/login";
+import store from '@/store/index';
+import {mapGetters} from "vuex";
 
 export default {
   name: 'App',
@@ -61,9 +66,25 @@ export default {
   data: () => ({
     dialog: false
   }),
+  computed: {
+    ...mapGetters({
+      isLogin: "isLogin",
+      user: "getUser"
+    })
+  },
   methods: {
     salir() {
       this.dialog = false
+    },
+    logout() {
+      if (confirm("Seguro que quires salir? ")) {
+        store.dispatch('destroyToken').then(response => {
+          if (response.data.res === true) {
+            this.$toastr.success(response.data.message);
+          } else
+            this.$toastr.error(response.data.message);
+        })
+      }
     }
   }
 };

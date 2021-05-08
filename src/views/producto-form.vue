@@ -1,6 +1,6 @@
 <template>
   <v-card
-    outlined
+      outlined
   >
     <v-form
         ref="form"
@@ -9,19 +9,25 @@
         @submit.prevent="save"
     >
 
-    <v-card-title>
-      <h3> {{ isNew ? 'Nuevo' : 'Editar' }} producto</h3>
+      <v-card-title>
+        <h3> {{ isNew ? 'Nuevo' : 'Editar' }} producto</h3>
 
-      <v-spacer/>
-      <v-btn
-          outlined
-          @click="$router.back()"
-      >
-        Volver
-      </v-btn>
-    </v-card-title>
-    <v-divider/>
-    <v-card-text>
+        <v-spacer/>
+        <v-btn
+            outlined
+            @click="$router.back()"
+        >
+          Volver
+        </v-btn>
+      </v-card-title>
+      <v-divider/>
+      <v-card-text>
+
+        <errores
+            v-if="errores !== null"
+            :errores="errores"
+        />
+
         <v-text-field
             label="Código *"
             v-model="producto.codigo"
@@ -45,12 +51,12 @@
         ></v-text-field>
 
         <v-textarea
-          label="Descripción *"
-          v-model="producto.descripcion"
-          :rules="[
+            label="Descripción *"
+            v-model="producto.descripcion"
+            :rules="[
                 (v) => !!v || 'Descripcion es requerido'
             ]"
-          required
+            required
         ></v-textarea>
 
         <v-text-field
@@ -62,20 +68,20 @@
                 (v) => !!v || 'Precio es requerido'
             ]"
         ></v-text-field>
-    </v-card-text>
+      </v-card-text>
 
-    <v-card-actions>
-      <v-btn
-          type="submit"
-          color="green"
-          outlined
-          :loading="loading"
-      >
-        Guardar
-      </v-btn>
-    </v-card-actions>
+      <v-card-actions>
+        <v-btn
+            type="submit"
+            color="green"
+            outlined
+            :loading="loading"
+        >
+          Guardar
+        </v-btn>
+      </v-card-actions>
 
-    <pre>
+      <pre>
       {{ errores }}
     </pre>
 
@@ -86,16 +92,18 @@
 
 <script>
 import {mapState} from "vuex";
+import Errores from "../components/errores";
 
 export default {
   name: "producto-form",
+  components: {Errores},
   data: () => ({
     isNew: true,
     valid: false,
     producto: {
       user: {}
     },
-    errores: [],
+    errores: null,
     loading: false
   }),
   computed: {
@@ -105,22 +113,22 @@ export default {
     this.isNew = !this.$route.params.id;
   },
   mounted() {
-    if(!this.isNew)
+    if (!this.isNew)
       this.getProducto();
   },
   methods: {
-    getProducto(){
+    getProducto() {
       const url = this.url + "productos/" + this.$route.params.id;
       this.axios.get(url).then(response => {
         this.producto = response.data
       });
     },
-    save(){
-      if(!this.$refs.form.validate())
+    save() {
+      if (!this.$refs.form.validate())
         return;
 
       let url = "";
-      if(this.isNew)
+      if (this.isNew)
         url = this.url + "productos/"
       else
         url = this.url + "productos/" + this.$route.params.id;

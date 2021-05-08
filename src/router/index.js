@@ -25,14 +25,16 @@ const routes = [
     name: 'Producto',
     component: function () {
       return import( '../views/producto-form')
-    }
+    },
+    meta: { requiresAuth: true}
   },
   {
     path: '/producto/:id/edit',
     name: 'Producto.edit',
     component: function () {
       return import( '../views/producto-form')
-    }
+    },
+    meta: { requiresAuth: true}
   }
 ]
 

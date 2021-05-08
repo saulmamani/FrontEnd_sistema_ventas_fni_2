@@ -67,6 +67,7 @@
 
     <v-card-actions>
       <v-btn
+          v-if="isLogin"
           color="green"
           text
           @click="openForm"
@@ -74,6 +75,7 @@
         Editar
       </v-btn>
       <v-btn
+          v-if="isLogin"
           color="red"
           text
           @click="eliminar"
@@ -99,7 +101,7 @@
 
 <script>
 import SubirImagen from "./subir-imagen";
-import {mapState} from "vuex";
+import {mapGetters, mapState} from "vuex";
 export default {
   name: "producto",
   components: {SubirImagen},
@@ -108,7 +110,11 @@ export default {
     dialogImagen: false
   }),
   computed: {
-    ...mapState(['url'])
+    ...mapState(['url']),
+    ...mapGetters({
+      isLogin: "isLogin",
+      user: "getUser"
+    })
   },
   methods:{
     openForm(){

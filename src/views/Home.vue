@@ -6,6 +6,7 @@
       <v-spacer/>
 
       <v-btn
+          v-if="isLogin"
           color="green"
           text
           outlined
@@ -52,7 +53,7 @@
 
 <script>
   import Producto from "../components/producto";
-  import {mapState} from "vuex";
+  import {mapGetters, mapState} from "vuex";
 
   export default {
     name: 'Home',
@@ -63,7 +64,11 @@
       txtBuscar: ""
     }),
     computed: {
-      ...mapState(['url'])
+      ...mapState(['url']),
+      ...mapGetters({
+        isLogin: "isLogin",
+        user: "getUser"
+      })
     },
     mounted() {
       this.getProductos()
